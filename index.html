@@ -1,0 +1,116 @@
+
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>حقيبة تبريد حرارية</title>
+  <style>
+    body {
+      font-family: Arial;
+      direction: rtl;
+      text-align: right;
+      background-color: #f2f2f2;
+      padding: 20px;
+    }
+    .container {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 500px;
+      margin: auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    img {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+    input, select, button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      border-radius: 6px;
+      border: 1px solid #ddd;
+      box-sizing: border-box;
+      font-size: 16px;
+    }
+    button {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background-color: #218838;
+    }
+    .price {
+      font-size: 24px;
+      color: #dc3545;
+      font-weight: bold;
+      margin: 15px 0;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>اطلب الآن: حقيبة تبريد حرارية</h1>
+  <img src="https://i.imgur.com/QMwMxIT.jpg" alt="حقيبة تبريد حرارية">
+  <p class="price">السعر: 2800 دج</p>
+  <p><strong>مميزات المنتج:</strong></p>
+  <ul>
+    <li>تحفظ البرودة لمدة 24 ساعة</li>
+    <li>سعة كبيرة 25 لتر</li>
+    <li>خامة عالية الجودة</li>
+    <li>ألوان متعددة</li>
+  </ul>
+
+  <form action="https://formsubmit.co/your-email@gmail.com" method="POST">
+    <input type="hidden" name="_next" value="https://yourusername.github.io/thankyou.html">
+    <input type="hidden" name="_captcha" value="false">
+    <input type="hidden" name="_template" value="table">
+    
+    <input type="text" name="الاسم" placeholder="الاسم الكامل" required>
+    <input type="tel" name="الهاتف" placeholder="رقم الهاتف" required>
+    <input type="text" name="العنوان" placeholder="العنوان الكامل" required>
+    
+    <select name="الولاية" id="wilaya" required onchange="updateShipping()">
+      <option value="" disabled selected>اختر ولايتك</option>
+      <option value="الجزائر" data-price="300">الجزائر</option>
+      <option value="وهران" data-price="350">وهران</option>
+      <option value="سطيف" data-price="400">سطيف</option>
+      <option value="عنابة" data-price="450">عنابة</option>
+    </select>
+    
+    <select name="البلدية" required>
+      <option value="" disabledected>اختر بلديتك</option>
+      <option value="الجزائر الوسطى">الجزائر الوسطى</option>
+      <option value="بئر مراد رايس">بئر مراد رايس</option>
+      <option value="القبة">القبة</option>
+    </select>
+
+    <p id="totalPrice"><strong>السعر الإجمالي:</strong> 2800 دج</p>
+
+    <button type="submit">تأكيد الطلب</button>
+  </form>
+</div>
+
+<script>
+  function updateShipping() {
+    const wilaya = document.getElementById("wilaya");
+    const selected = wilaya.options[wilaya.selectedIndex];
+    const shipping = Number(selected.dataset.price || 0);
+    const basePrice = 2800;
+    document.getElementById("totalPrice").innerHTML = 
+      `<strong>السعر الإجمالي:</strong> ${(basePrice + shipping).toLocaleString()} دج (السعر الأساسي: 2800 دج + الشحن: ${shipping} دج)`;
+  }
+</script>
+
+</body>
+</html>
+
+
