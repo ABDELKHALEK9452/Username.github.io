@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>شكرًا لطلبك</title>
+  <style>
+    body {
+      font-family: Arial;
+      direction: rtl;
+      text-align: center;
+      background-color: #f2f2f2;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      max-width: 500px;
+      margin: 50px auto;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #28a745;
+      margin-bottom: 20px;
+    }
+    .icon {
+      font-size: 80px;
+      color: #28a745;
+      margin-bottom: 20px;
+    }
+    .info-box {
+      background: #f8f9fa;
+      padding: 20px;
+      border-radius: 8px;
+      margin: 25px 0;
+      text-align: right;
+      border-right: 4px solid #28a745;
+    }
+    .info-item {
+      margin-bottom: 10px;
+    }
+    .whatsapp-btn {
+      display: inline-block;
+      background-color: #25D366;
+      color: white;
+      padding: 12px 25px;
+      border-radius: 6px;
+      text-decoration: none;
+      margin-top: 20px;
+      font-weight: bold;
+      font-size: 18px;
+      transition: background 0.3s;
+    }
+    .whatsapp-btn:hover {
+      background-color: #128C7E;
+    }
+    .contact-info {
+      margin-top: 30px;
+      font-size: 17px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="icon">✓</div>
+  <h1>تم استلام طلبك بنجاح!</h1>
+  
+  <p>شكرًا لثقتك بنا. سنقوم بتجهيز طلبك والتواصل معك خلال 24 ساعة</p>
+  
+  <div class="info-box">
+    <div class="info-item">
+      <strong>رقم الطلب:</strong> <span id="orderNumber"></span>
+    </div>
+    <div class="info-item">
+      <strong>الاسم:</strong> <span id="customerName"></span>
+    </div>
+    <div class="info-item">
+      <strong>العنوان:</strong> <span id="customerAddress"></span>
+    </div>
+    <div class="info-item">
+      <strong>المبلغ الإجمالي:</strong> <span id="totalAmount"></span>
+    </div>
+  </div>
+  
+  <p>سيتم إرسال رسالة تأكيد إلى هاتفك قريبًا</p>
+  
+  <div class="contact-info">
+    <p>للاستفسار أو تعديل الطلب:</p>
+    <a id="whatsappLink" class="whatsapp-btn">
+      <i class="fab fa-whatsapp"></i> تواصل معنا عبر واتساب
+    </a>
+    <p style="margin-top: 15px;">أو اتصل على: <strong>0555-123456</strong></p>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // توليد رقم طلب عشوائي
+    const orderNum = 'ORD-' + Math.floor(100000 + Math.random() * 900000);
+    document.getElementById('orderNumber').textContent = orderNum;
+    
+    // جلب بيانات من URL
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    // عرض بيانات العميل
+    if(urlParams.has('الاسم')) {
+      document.getElementById('customerName').textContent = urlParams.get('الاسم');
+    }
+    
+    if(urlParams.has('العنوان') && urlParams.has('الولاية')) {
+      document.getElementById('customerAddress').textContent = 
+        `${urlParams.get('العنوان')} - ${urlParams.get('البلدية')}, ${urlParams.get('الولاية')}`;
+    }
+    
+    // حساب المبلغ الإجمالي
+    const basePrice = 2800;
+    let shippingPrice = 0;
+    
+    if(urlParams.has('الولاية')) {
+      const wilaya = urlParams.get('الولاية');
+      shippingPrice = 
+        wilaya === 'الجزائر' ? 300 :
+        wilaya === 'وهران' ? 350 :
+        wilaya === 'سطيف' ? 400 :
+        wilaya === 'عنابة' ? 450 : 0;
+    }
+    
+    document.getElementById('totalAmount').textContent = 
+      `${(basePrice + shippingPrice).toLocaleString()} دج (السعر الأساسي: 2800 دج + الشحن: ${shippingPrice} دج)`;
+    
+    // تحديث رابط واتساب
+    if(urlParams.has('الهاتف')) {
+      const phone = urlParams.get('الهاتف').replace(/\D/g, '');
+      const whatsappMsg = `مرحبًا، أنا ${urlParams.get('الاسم')}، لدي استفسار بخصوص طلبي رقم ${orderNum}`;
+      document.getElementById('whatsappLink').href = 
+        `https://wa.me/213${phone}?text=${encodeURIComponent(whatsappMsg)}`;
+    }
+  });
+</script>
+
+</body>
+</html>
